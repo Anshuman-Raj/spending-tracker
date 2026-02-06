@@ -63,6 +63,7 @@ class _AddExpenseState extends State<AddExpense> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
+                      maxLength: 50,
                       controller: _titleController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -80,6 +81,7 @@ class _AddExpenseState extends State<AddExpense> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
+                      maxLength: 50,
                       controller: _amountController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
