@@ -10,7 +10,7 @@ enum Category {
   other
 }
 
-Map<Category, IconData> categoryIcons = {
+const Map<Category, IconData> categoryIcons = {
   Category.food: Icons.fastfood,
   Category.travel: Icons.flight,
   Category.leisure: Icons.movie,
@@ -30,4 +30,12 @@ class Expense {
     required this.amount,
     required this.category,
   }) : id = uuid.v4(), date = DateTime.now();
+
+  String getDateString() {
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return "${date.day} ${monthNames[date.month - 1]} ${date.year}";
+  }
 }
