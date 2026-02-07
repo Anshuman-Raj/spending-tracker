@@ -23,23 +23,29 @@ class _AddExpenseState extends State<AddExpense> {
     super.dispose();
   }
 
+  void _cancelExpense() {
+    Navigator.pop(context);
+  }
+
   void _submitExpense() {
     final title = _titleController.text.trim();
     final amount = double.tryParse(_amountController.text.trim());
     final category = _selectedCategory;
     final date = _selectedDate;
 
-    if (title.isEmpty ||
-        amount == null ||
-        amount <= 0 ||
-        category == null) {
+    if (title.isEmpty || amount == null || amount <= 0 || category == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all fields correctly')),
       );
       return;
     }
 
-    final expense = Expense(title: title, amount: amount, category: category, date: date);
+    final expense = Expense(
+      title: title,
+      amount: amount,
+      category: category,
+      date: date,
+    );
 
     widget.addExpenseMethod(expense);
     Navigator.pop(context);
@@ -83,6 +89,7 @@ class _AddExpenseState extends State<AddExpense> {
                       maxLength: 50,
                       controller: _amountController,
                       decoration: const InputDecoration(
+                        prefixText: '£ ',
                         border: OutlineInputBorder(),
                         hintText: 'Enter expense amount',
                       ),
@@ -98,7 +105,7 @@ class _AddExpenseState extends State<AddExpense> {
                 children: [
                   // Flexible(child: const Text('Expense Category:')),
                   // const SizedBox(width: 8),
-                  Flexible(
+                  Expanded(
                     child: DropdownButtonFormField<Category>(
                       hint: const Text("Select Category"),
                       initialValue: _selectedCategory,
@@ -118,9 +125,8 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                     ),
                   ),
-                  
-                  
-                  Flexible(
+
+                  Expanded(
                     child: Container(
                       alignment: Alignment.centerRight,
                       child: Row(
@@ -152,9 +158,21 @@ class _AddExpenseState extends State<AddExpense> {
                 ],
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _submitExpense,
-                child: const Text('Add Expense'),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: _cancelExpense,
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.redAccent,
+                    ),
+                    child: const Text('Cancel'),
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: _submitExpense,
+                    child: const Text('Add Expense'),
+                  ),
+                ],
               ),
             ],
           ),
