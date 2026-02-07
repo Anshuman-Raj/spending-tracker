@@ -12,9 +12,6 @@ class Expenses extends StatefulWidget {
 
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _addedExpenses = [
-    Expense(title: 'Lunch', amount: 9.99, category: Category.food),
-
-    Expense(title: 'Cinema', amount: 15.00, category: Category.leisure),
   ];
 
   void _addExpenseInputOverlay() {

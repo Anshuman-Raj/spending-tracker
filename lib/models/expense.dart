@@ -29,7 +29,8 @@ class Expense {
     required this.title,
     required this.amount,
     required this.category,
-  }) : id = uuid.v4(), date = DateTime.now();
+    DateTime? date,
+  }) : id = uuid.v4(), date = date?? DateTime.now();
 
   String getDateString() {
     const monthNames = [

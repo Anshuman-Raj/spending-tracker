@@ -14,6 +14,7 @@ class _AddExpenseState extends State<AddExpense> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   Category? _selectedCategory;
+  DateTime? _selectedDate;
 
   @override
   void dispose() {
@@ -26,19 +27,19 @@ class _AddExpenseState extends State<AddExpense> {
     final title = _titleController.text.trim();
     final amount = double.tryParse(_amountController.text.trim());
     final category = _selectedCategory;
+    final date = _selectedDate;
 
-    if (title.isEmpty || amount == null || amount <= 0 || category == null) {
+    if (title.isEmpty ||
+        amount == null ||
+        amount <= 0 ||
+        category == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all fields correctly')),
       );
       return;
     }
 
-    final expense = Expense(
-      title: title,
-      amount: amount,
-      category: category,
-    );
+    final expense = Expense(title: title, amount: amount, category: category, date: date);
 
     widget.addExpenseMethod(expense);
     Navigator.pop(context);
@@ -47,9 +48,7 @@ class _AddExpenseState extends State<AddExpense> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Expense'),
-      ),
+      appBar: AppBar(title: const Text('Add Expense')),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Padding(
@@ -59,8 +58,8 @@ class _AddExpenseState extends State<AddExpense> {
             children: [
               Row(
                 children: [
-                  const Text('Expense Title:'),
-                  const SizedBox(width: 8),
+                  // const Text('Expense Title:'),
+                  // const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       maxLength: 50,
@@ -70,15 +69,15 @@ class _AddExpenseState extends State<AddExpense> {
                         hintText: 'Enter expense title',
                       ),
                     ),
-                  )
+                  ),
+                ],
+              ),
 
-                ],),
-                
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text('Expense Amount:'),
-                  const SizedBox(width: 8),
+                  // const Text('Expense Amount:'),
+                  // const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       maxLength: 50,
@@ -87,19 +86,21 @@ class _AddExpenseState extends State<AddExpense> {
                         border: OutlineInputBorder(),
                         hintText: 'Enter expense amount',
                       ),
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                     ),
                   ),
-
                 ],
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text('Expense Category:'),
-                  const SizedBox(width: 8),
-                  Expanded(
+                  // Flexible(child: const Text('Expense Category:')),
+                  // const SizedBox(width: 8),
+                  Flexible(
                     child: DropdownButtonFormField<Category>(
+                      hint: const Text("Select Category"),
                       initialValue: _selectedCategory,
                       items: Category.values.map((category) {
                         return DropdownMenuItem(
@@ -117,13 +118,44 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                     ),
                   ),
+                  
+                  
+                  Flexible(
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 32),
+                          const Text("Select Date:"),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: const Icon(Icons.calendar_today),
+                            iconSize: 48,
+                            onPressed: () async {
+                              final pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+                              if (pickedDate != null) {
+                                setState(() {
+                                  _selectedDate = pickedDate;
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _submitExpense,
                 child: const Text('Add Expense'),
-              )
+              ),
             ],
           ),
         ),
