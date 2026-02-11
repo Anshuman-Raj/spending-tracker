@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spending_tracker/widgets/add_expense.dart';
 import 'package:spending_tracker/widgets/expenses_list.dart';
 import 'package:spending_tracker/models/expense.dart';
@@ -11,8 +12,15 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _addedExpenses = [
-  ];
+  late final Box<Expense> _expensesBox;
+  late List<Expense> _addedExpenses;
+
+  @override
+  void initState() {
+    super.initState();
+    _expensesBox = Hive.box<Expense>('expenses');
+    _addedExpenses = _expensesBox.values.toList();
+  }
 
   void _addExpenseInputOverlay() {
     showModalBottomSheet(context: context, builder: (ctx) {
@@ -21,8 +29,10 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void _addExpense(Expense expense) {
+    // persist in Hive and update local list
+    _expensesBox.add(expense);
     setState(() {
-      _addedExpenses.add(expense);
+      _addedExpenses = _expensesBox.values.toList();
     });
   }
 
