@@ -41,7 +41,7 @@ class _AddExpenseState extends State<AddExpense> {
     }
     else if (title.isEmpty ) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields correctly')),
+        const SnackBar(content: Text('Please enter a title for the expense')),
       );
       return;
     }
