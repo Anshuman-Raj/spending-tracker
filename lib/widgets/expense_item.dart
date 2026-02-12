@@ -3,7 +3,8 @@ import 'package:spending_tracker/models/expense.dart';
 
 class ExpenseItem extends StatelessWidget {
 
-  const ExpenseItem({super.key, required this.expense});
+  const ExpenseItem({super.key, required this.expense, required this.deleteExpense}); 
+  final void Function(String) deleteExpense;
   final Expense expense;
 
   @override
@@ -66,11 +67,25 @@ class ExpenseItem extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            expense.getDateString(),
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.black45,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  expense.getDateString(),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.black45,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => deleteExpense(expense.id),
+                  tooltip: 'Delete Expense', 
+                  icon: const Icon(
+                    Icons.delete, color: 
+                    Colors.red)
+                    )
+              ],
             ),
           ),
         ],

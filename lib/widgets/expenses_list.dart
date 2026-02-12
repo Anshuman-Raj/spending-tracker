@@ -4,7 +4,8 @@ import 'package:spending_tracker/widgets/expense_item.dart';
 
 class ExpensesList extends StatelessWidget {
   final List<Expense> _addedExpenses;
-  const ExpensesList(this._addedExpenses, {super.key});
+  final void Function(String) deleteExpense;
+  const ExpensesList(this._addedExpenses, {super.key, required this.deleteExpense});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class ExpensesList extends StatelessWidget {
       itemCount: _addedExpenses.length,
       itemBuilder: (context, index) {
         final expense = _addedExpenses[index];
-        return ExpenseItem(expense: expense);
+        return ExpenseItem(expense: expense, deleteExpense: deleteExpense);
       },
     );
   }

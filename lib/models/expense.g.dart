@@ -17,6 +17,7 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Expense(
+      id: fields[0] as String?,
       title: fields[1] as String,
       amount: (fields[2] as num).toDouble(),
       category: fields[3] as Category,
@@ -27,7 +28,9 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
   @override
   void write(BinaryWriter writer, Expense obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.id)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)

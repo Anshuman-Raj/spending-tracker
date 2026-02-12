@@ -13,13 +13,11 @@ class Expenses extends StatefulWidget {
 
 class _ExpensesState extends State<Expenses> {
   late final Box<Expense> _expensesBox;
-  late List<Expense> _addedExpenses;
 
   @override
   void initState() {
     super.initState();
     _expensesBox = Hive.box<Expense>('expenses');
-    _addedExpenses = _expensesBox.values.toList();
   }
 
   void _addExpenseInputOverlay() {
@@ -27,13 +25,13 @@ class _ExpensesState extends State<Expenses> {
       return AddExpense(addExpenseMethod: _addExpense,);
     });
   }
+  void _deleteExpense(String index) { 
+    _expensesBox.delete(index); 
+  }
 
   void _addExpense(Expense expense) {
-    // persist in Hive and update local list
-    _expensesBox.add(expense);
-    setState(() {
-      _addedExpenses = _expensesBox.values.toList();
-    });
+    // persist in Hive - UI will update automatically via ValueListenableBuilder
+    _expensesBox.put(expense.id, expense);
   }
 
   @override
@@ -57,7 +55,15 @@ class _ExpensesState extends State<Expenses> {
             'Total Expenses Chart',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Expanded(child: ExpensesList(_addedExpenses)),
+          Expanded(
+            child: ValueListenableBuilder<Box<Expense>>(
+              valueListenable: _expensesBox.listenable(),
+              builder: (context, box, _) {
+                final expenses = box.values.toList();
+                return ExpensesList(expenses, deleteExpense: _deleteExpense);
+              },
+            ),
+          ),
         ],
       ),
     );

@@ -36,11 +36,12 @@ class Expense {
   final DateTime date;
 
   Expense({
+    String? id,
     required this.title,
     required this.amount,
     required this.category,
     DateTime? date,
-  }) : id = uuid.v4(), date = date?? DateTime.now();
+  }) : id = id?? uuid.v4(), date = date?? DateTime.now();
 
   String getDateString() {
     const monthNames = [
