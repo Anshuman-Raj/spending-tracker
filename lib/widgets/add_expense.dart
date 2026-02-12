@@ -29,16 +29,34 @@ class _AddExpenseState extends State<AddExpense> {
 
   void _submitExpense() {
     final title = _titleController.text.trim();
-    final amount = double.tryParse(_amountController.text.trim());
+    final amount = double.tryParse(_amountController.text.trim().replaceAll(RegExp(r','), ''));
     final category = _selectedCategory;
     final date = _selectedDate;
-
-    if (title.isEmpty || amount == null || amount <= 0 || category == null) {
+  // Validate the input fields
+    if (amount == null || amount <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid amount')),
+      );
+      return;
+    }
+    else if (title.isEmpty ) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all fields correctly')),
       );
       return;
     }
+    else if(category == null) { 
+      ScaffoldMessenger.of(context).showSnackBar( 
+        const SnackBar(content: Text('Please select a category')), 
+        ); 
+        return; 
+        } 
+    else if(date == null) { 
+      ScaffoldMessenger.of(context).showSnackBar( 
+        const SnackBar(content: Text('Please select a date')), 
+        ); 
+        return; 
+        }
 
     final expense = Expense(
       title: title,
