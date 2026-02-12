@@ -50,12 +50,6 @@ class _AddExpenseState extends State<AddExpense> {
         const SnackBar(content: Text('Please select a category')), 
         ); 
         return; 
-        } 
-    else if(date == null) { 
-      ScaffoldMessenger.of(context).showSnackBar( 
-        const SnackBar(content: Text('Please select a date')), 
-        ); 
-        return; 
         }
 
     final expense = Expense(
