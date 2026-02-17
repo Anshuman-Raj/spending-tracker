@@ -31,7 +31,19 @@ class _ExpensesState extends State<Expenses> {
     });
   }
   void _deleteExpense(String index) { 
+    final deletedExpense = _expensesBox.get(index);
     _expensesBox.delete(index); 
+    ScaffoldMessenger.of(context).showSnackBar( 
+      SnackBar(
+        persist: false,
+        action: SnackBarAction(label: 'Undo', onPressed: () {
+          _expensesBox.put(index, deletedExpense!);
+        }),
+        backgroundColor: Colors.red.shade400,
+        behavior: SnackBarBehavior.floating,
+        content: const Text('Expense deleted')
+        ), 
+    );
   }
   String _getTotalExpenses() {
     final expenses = _expensesBox.values.toList();
