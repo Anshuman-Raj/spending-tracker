@@ -13,7 +13,9 @@ class ExpensesList extends StatelessWidget {
       itemCount: _addedExpenses.length,
       itemBuilder: (context, index) {
         final expense = _addedExpenses[index];
-        return ExpenseItem(expense: expense, deleteExpense: deleteExpense);
+        return Dismissible(key: ValueKey(expense.id),
+        onDismissed: (direction) => deleteExpense(expense.id),
+        child: ExpenseItem(expense: expense, deleteExpense: deleteExpense));
       },
     );
   }

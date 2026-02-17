@@ -21,14 +21,28 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void _addExpenseInputOverlay() {
-    showModalBottomSheet(context: context, builder: (ctx) {
-      return AddExpense(addExpenseMethod: _addExpense,);
+    showModalBottomSheet(isScrollControlled: true, 
+    context: context, 
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 48.0),
+        child: AddExpense(addExpenseMethod: _addExpense,),
+      );
     });
   }
   void _deleteExpense(String index) { 
     _expensesBox.delete(index); 
   }
-
+  String _getTotalExpenses() {
+    final expenses = _expensesBox.values.toList();
+    double total = 0;
+    for (var expense in expenses) {
+      if (expense.date.month == DateTime.now().month && expense.date.year == DateTime.now().year) {
+        total += expense.amount;
+      }
+    }
+    return total.toStringAsFixed(2);
+  }
   void _addExpense(Expense expense) {
     // persist in Hive - UI will update automatically via ValueListenableBuilder
     _expensesBox.put(expense.id, expense);
@@ -51,9 +65,18 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         verticalDirection: VerticalDirection.down,
         children: [
-          const Text(
+          Text(
             'Total Expenses Chart',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          ValueListenableBuilder<Box<Expense>>(
+            valueListenable: _expensesBox.listenable(),
+            builder: (context, box, _) {
+              return Text(
+          'This Month\'s Total: £${_getTotalExpenses()}',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    );
+            },
           ),
           Expanded(
             child: ValueListenableBuilder<Box<Expense>>(
