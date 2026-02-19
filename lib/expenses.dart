@@ -33,6 +33,7 @@ class _ExpensesState extends State<Expenses> {
   void _deleteExpense(String index) { 
     final deletedExpense = _expensesBox.get(index);
     _expensesBox.delete(index); 
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar( 
       SnackBar(
         persist: false,
