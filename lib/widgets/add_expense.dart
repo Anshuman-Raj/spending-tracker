@@ -120,6 +120,7 @@ class _AddExpenseState extends State<AddExpense> {
                   Expanded(
                     child: DropdownButtonFormField<Category>(
                       hint: const Text("Select Category"),
+                      dropdownColor: Theme.of(context).colorScheme.primaryContainer,
                       initialValue: _selectedCategory,
                       items: Category.values.map((category) {
                         return DropdownMenuItem(

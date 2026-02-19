@@ -53,6 +53,7 @@ class ExpenseItem extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 4),

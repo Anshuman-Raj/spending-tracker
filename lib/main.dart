@@ -18,12 +18,25 @@ void main() async {
   runApp(const MainApp());
 }
 
+
+final kColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 193, 108, 208));
+final kDarkColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 53, 2, 62), brightness: Brightness.dark);
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      darkTheme: ThemeData().copyWith(colorScheme: kDarkColorScheme,
+      scaffoldBackgroundColor: kDarkColorScheme.primaryContainer,
+      textTheme: ThemeData.dark().textTheme.apply(bodyColor: kDarkColorScheme.onPrimaryContainer),
+      ),
+      
+       themeMode: ThemeMode.system,
+       theme: ThemeData().copyWith(
+         colorScheme: kColorScheme,
+         scaffoldBackgroundColor: kColorScheme.primaryContainer,
+         textTheme: ThemeData.light().textTheme.apply(bodyColor: kColorScheme.onPrimaryContainer)
+      ),
       home: Expenses(),
     );
   }
