@@ -100,6 +100,7 @@ class _ExpensesState extends State<Expenses> {
               valueListenable: _expensesBox.listenable(),
               builder: (context, box, _) {
                 final expenses = box.values.toList();
+                expenses.sort((a, b) => b.date.compareTo(a.date));
                 return ExpensesList(expenses, deleteExpense: _deleteExpense);
               },
             ),
