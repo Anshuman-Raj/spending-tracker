@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spending_tracker/widgets/add_expense.dart';
+import 'package:spending_tracker/charts/chart.dart';
 import 'package:spending_tracker/widgets/expenses_list.dart';
 import 'package:spending_tracker/models/expense.dart';
 
@@ -78,9 +79,12 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         verticalDirection: VerticalDirection.down,
         children: [
-          Text(
-            'Total Expenses Chart',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ValueListenableBuilder<Box<Expense>>(
+            valueListenable: _expensesBox.listenable(),
+            builder: (context, box, _) {
+              final expenses = box.values.toList();
+              return Chart(expenses: expenses);
+            },
           ),
           ValueListenableBuilder<Box<Expense>>(
             valueListenable: _expensesBox.listenable(),

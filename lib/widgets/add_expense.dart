@@ -148,14 +148,14 @@ class _AddExpenseState extends State<AddExpense> {
                           const Text("Select Date:"),
                           const SizedBox(width: 8),
                           IconButton(
-                            icon: const Icon(Icons.calendar_today),
+                            icon: const Icon(Icons.calendar_month_rounded),
                             iconSize: 48,
                             onPressed: () async {
                               final pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(2000),
-                                lastDate: DateTime(2100),
+                                lastDate: DateTime.now().add(const Duration(days: 365)),
                               );
                               if (pickedDate != null) {
                                 setState(() {

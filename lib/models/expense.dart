@@ -52,33 +52,18 @@ class Expense {
   }
 }
 
-// Hive TypeAdapter for Expense
-// class ExpenseAdapter extends TypeAdapter {
-//   @override
-//   final int typeId = 0;
+class ExpenseBucket {
+  final List<Expense> expenses;
+  final Category? category;
+  final String? monthYear;
 
-//   @override
-//   dynamic read(BinaryReader reader) {
-//     final id = reader.readString();
-//     final title = reader.readString();
-//     final amount = reader.readDouble();
-//     final categoryIndex = reader.readInt();
-//     final dateMillis = reader.readInt();
-//     return Expense(
-//       title: title,
-//       amount: amount,
-//       category: Category.values[categoryIndex],
-//       date: DateTime.fromMillisecondsSinceEpoch(dateMillis),
-//     );
-//   }
+  ExpenseBucket(this.expenses, this.category, this.monthYear);
+  ExpenseBucket.forCategory(Category category, List<Expense> allExpenses) 
+    : expenses = allExpenses.where((expense) => expense.category == category).toList(), category = category, monthYear = null;
+  ExpenseBucket.forMonthYear(int month, int year, List<Expense> allExpenses) 
+    : expenses = allExpenses.where((expense) => expense.date.month == month && expense.date.year == year).toList(), category = null, monthYear = "${month.toString().padLeft(2, '0')}/$year";
 
-//   @override
-//   void write(BinaryWriter writer, dynamic obj) {
-//     final Expense exp = obj as Expense;
-//     writer.writeString(exp.id);
-//     writer.writeString(exp.title);
-//     writer.writeDouble(exp.amount);
-//     writer.writeInt(exp.category.index);
-//     writer.writeInt(exp.date.millisecondsSinceEpoch);
-//   }
-// }
+  double get totalAmount {
+    return expenses.fold(0, (sum, expense) => sum + expense.amount);
+  }
+}
