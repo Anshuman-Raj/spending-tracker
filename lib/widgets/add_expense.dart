@@ -90,7 +90,7 @@ class _AddExpenseState extends State<AddExpense> {
                   ),
                 ],
               ),
-
+      
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -138,7 +138,7 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                     ),
                   ),
-
+      
                   Expanded(
                     child: Container(
                       alignment: Alignment.centerRight,

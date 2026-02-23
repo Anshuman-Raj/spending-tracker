@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:spending_tracker/models/expense.dart';
 
@@ -11,7 +13,7 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 0.15;
+    final height = max(MediaQuery.of(context).size.height * 0.15, 120.0);
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,

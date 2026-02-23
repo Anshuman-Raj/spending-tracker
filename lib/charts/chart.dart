@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:spending_tracker/models/expense.dart';
 import 'package:spending_tracker/charts/chart_bar.dart';
@@ -36,7 +38,7 @@ class Chart extends StatelessWidget {
       final double percentage = maxTotalExpense == 0 ? 0 : totalAmount / maxTotalExpense;
       chartBarWidgets.add(ChartBar(category: bucket.category!, amount: totalAmount, percentage: percentage));
     }
-    final height = MediaQuery.of(context).size.height * 0.25;
+    final height = max(MediaQuery.of(context).size.height * 0.25, 200.0);
     return Container(
     margin: const EdgeInsets.all(16),
     padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),

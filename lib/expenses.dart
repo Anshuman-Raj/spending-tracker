@@ -64,19 +64,48 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Spending Tracker'),
-        actions: [
-          IconButton(
-            onPressed: _addExpenseInputOverlay,
-            icon: const Icon(Icons.add),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isLargeScreen = screenWidth > 600;
+    final Widget children; 
+    if (isLargeScreen) {
+      children = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: ValueListenableBuilder<Box<Expense>>(
+              valueListenable: _expensesBox.listenable(),
+              builder: (context, box, _) {
+                final expenses = box.values.toList();
+                return Expanded(
+                  child: Column(
+                    children: [
+                      Chart(expenses: expenses),
+                      const SizedBox(height: 16),
+                      Text(
+                        'This Month\'s Total: £${_getTotalExpenses()}',
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: ValueListenableBuilder<Box<Expense>>(
+              valueListenable: _expensesBox.listenable(),
+              builder: (context, box, _) {
+                final expenses = box.values.toList();
+                expenses.sort((a, b) => b.date.compareTo(a.date));
+                return ExpensesList(expenses, deleteExpense: _deleteExpense);
+              },
+            ),
           ),
         ],
-        backgroundColor: Colors.purple,
-        foregroundColor: Colors.white,
-      ),
-      body: Column(
+      );
+    }
+    else {
+      children = Column(
         verticalDirection: VerticalDirection.down,
         children: [
           ValueListenableBuilder<Box<Expense>>(
@@ -106,7 +135,21 @@ class _ExpensesState extends State<Expenses> {
             ),
           ),
         ],
+      );
+  }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Spending Tracker'),
+        actions: [
+          IconButton(
+            onPressed: _addExpenseInputOverlay,
+            icon: const Icon(Icons.add),
+          ),
+        ],
+        backgroundColor: Colors.purple,
+        foregroundColor: Colors.white,
       ),
+      body: children,
     );
   }
 }
