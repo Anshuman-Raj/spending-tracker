@@ -19,13 +19,15 @@ class ExpenseHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(onPressed: onPreviousMonth, icon: const Icon(Icons.arrow_back_ios)),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(monthYearList[0], style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis),
-              Text(monthYearList[1], style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis)
-            ],
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(monthYearList[0], style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis),
+                Text(monthYearList[1], style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis)
+              ],
+            ),
           ),
           
           IconButton(onPressed: onNextMonth, icon: const Icon(Icons.arrow_forward_ios)),

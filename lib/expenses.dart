@@ -100,17 +100,15 @@ class _ExpensesState extends State<Expenses> {
               valueListenable: _expensesBox.listenable(),
               builder: (context, box, _) {
                 final expenses = ExpenseBucket.forMonthYear(currentMonthYear[0], currentMonthYear[1], _expensesBox.values.toList()).expenses;
-                return Expanded(
-                  child: Column(
-                    children: [
-                      Chart(expenses: expenses),
-                      const SizedBox(height: 16),
-                      ExpenseHeader(
-                        monthYear: "${monthNames[currentMonthYear[0] - 1]} ${currentMonthYear[1]}\nExpense: £${_getTotalExpenses()}", 
-                        onPreviousMonth: _goToPreviousMonth, 
-                        onNextMonth: _goToNextMonth),
-                    ],
-                  ),
+                return Column(
+                  children: [
+                    Chart(expenses: expenses),
+                    const SizedBox(height: 16),
+                    ExpenseHeader(
+                      monthYear: "${monthNames[currentMonthYear[0] - 1]} ${currentMonthYear[1]}\nExpense: £${_getTotalExpenses()}", 
+                      onPreviousMonth: _goToPreviousMonth, 
+                      onNextMonth: _goToNextMonth),
+                  ],
                 );
               },
             ),
