@@ -5,6 +5,10 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 part 'expense.g.dart';
 
 const uuid = Uuid();
+const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
 @HiveType(typeId: 0)
 enum Category {
   @HiveField(0) food,
@@ -44,10 +48,7 @@ class Expense {
   }) : id = id?? uuid.v4(), date = date?? DateTime.now();
 
   String getDateString() {
-    const monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
+    
     return "${date.day} ${monthNames[date.month - 1]} ${date.year}";
   }
 }
