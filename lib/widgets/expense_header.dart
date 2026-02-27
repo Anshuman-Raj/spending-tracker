@@ -42,7 +42,7 @@ class ExpenseHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(onPressed: onPreviousMonth, icon: const Icon(Icons.arrow_back_ios)),
-          Flexible(child: Text(monthYear, style: Theme.of(context).textTheme.headlineSmall, overflow: TextOverflow.ellipsis)),
+          Flexible(child: Text(monthYear, style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis)),
           IconButton(onPressed: onNextMonth, icon: const Icon(Icons.arrow_forward_ios)),
         ],
       ),
